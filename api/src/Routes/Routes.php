@@ -75,6 +75,7 @@ if(count(array_filter($arrayRutas)) == 2){
             }
         }
     }elseif(count(array_filter($arrayRutas)) >= 4){
+        /*
         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
         // MODULE: /services
@@ -349,15 +350,15 @@ if(count(array_filter($arrayRutas)) == 2){
                             return Response::error('Ha ocurrido un error en la solicitud.', $errors, 422);
                             exit();
                         }
-                        /*
-                        $operators = Operator::findByBusinessId($arrayRutas[5]);
-                        if(empty($operators)){
-                            $err = array('error' => 'No se encuentran operadores asociados a la empresa.');
-                            Response::error('No Content', $err, 200);
-                        }else{
-                            Response::success('OK', $operators, 200, 'operator');
-                        }
-                            */
+                        
+                        //$operators = Operator::findByBusinessId($arrayRutas[5]);
+                        //if(empty($operators)){
+                        //    $err = array('error' => 'No se encuentran operadores asociados a la empresa.');
+                        //    Response::error('No Content', $err, 200);
+                        //}else{
+                        //    Response::success('OK', $operators, 200, 'operator');
+                        //}
+                        
                     }else{
                         $err = array('error' => 'Faltan datos necesarios.');
                         Response::error('Bad Request', $err, 400);
@@ -369,6 +370,7 @@ if(count(array_filter($arrayRutas)) == 2){
             }
 
         }
+        */
     }
 }
 ?>

@@ -18,7 +18,7 @@
 class Connection{
 
     public static function connect(){
-        $link = new PDO("mysql:host=localhost;dbname=planex","root","");
+        $link = new PDO("mysql:host=localhost;dbname=blogbox","root","");
         $link->exec("set names utf8");
         return $link;
     }
