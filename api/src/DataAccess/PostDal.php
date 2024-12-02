@@ -2,11 +2,11 @@
 
 class PostDal{
 
-    public static function findById($serviceId) {
+    public static function findById($postId) {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM services WHERE id = :serviceId");
-        $stmt->bindParam(":serviceId", $serviceId, \PDO::PARAM_INT);
+        $stmt = $db->prepare("SELECT * FROM posts WHERE id = :postId");
+        $stmt->bindParam(":postId", $postId, \PDO::PARAM_INT);
         $stmt->execute();
 
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -14,11 +14,11 @@ class PostDal{
         return $result === false ? [] : $result;
     }
 
-    public static function findByBusinessId($businessId) {
+    public static function findByAuthorId($authorId) {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM services WHERE id_business_services = :businessId");
-        $stmt->bindParam(":businessId", $businessId, \PDO::PARAM_INT);
+        $stmt = $db->prepare("SELECT * FROM posts WHERE author_id = :author_id");
+        $stmt->bindParam(":author_id", $authorId, \PDO::PARAM_INT);
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -29,7 +29,7 @@ class PostDal{
     public static function findAll() {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM services");
+        $stmt = $db->prepare("SELECT * FROM posts");
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -39,22 +39,26 @@ class PostDal{
 
     public static function create($data) {
         $db = Connection::connect();
+
+        $fechaHoy = date('Y-m-d H:i:s');
     
         try {
             $db->beginTransaction();
-            $stmt = $db->prepare("INSERT INTO services (name, duration_minutes, price) 
-                                  VALUES (:name, :duration_minutes, :price)");
-            $stmt->bindParam(":name", $data['name'], \PDO::PARAM_STR);
-            $stmt->bindParam(":duration_minutes", $data['duration_minutes'], \PDO::PARAM_INT);
-            $stmt->bindParam(":price", $data['price'], \PDO::PARAM_STR);
+            $stmt = $db->prepare("INSERT INTO posts (title, content, author_id, created_at, updated_at) 
+                                  VALUES (:title, :content, :author_id, :created_at, :updated_at)");
+            $stmt->bindParam(":title", $data['title'], \PDO::PARAM_STR);
+            $stmt->bindParam(":content", $data['content'], \PDO::PARAM_STR);
+            $stmt->bindParam(":author_id", $data['author_id'], \PDO::PARAM_INT);
+            $stmt->bindParam(":created_at", $fechaHoy, \PDO::PARAM_STR);
+            $stmt->bindParam(":updated_at", $fechaHoy, \PDO::PARAM_STR);
             $stmt->execute();
-            $serviceId = $db->lastInsertId();
+            $postId = $db->lastInsertId();
             $db->commit();
 
-            return self::findById($serviceId);
+            return self::findById($postId);
         } catch (\PDOException $e) {
             $db->rollBack();
-            throw new \Exception("Error al crear el servicio: " . $e->getMessage());
+            throw new \Exception("Error al crear el post: " . $e->getMessage());
         }
     }
 
