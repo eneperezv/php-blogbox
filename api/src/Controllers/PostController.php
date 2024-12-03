@@ -63,7 +63,7 @@ class PostController{
         
     }
 
-    public static function findAll() {
+    public static function findAllPosts() {
 
         try {
             $postDetails = Post::findAll();

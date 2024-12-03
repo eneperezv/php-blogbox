@@ -41,7 +41,7 @@ class PostDal{
         return $result === false ? [] : $result;
     }
 
-    public static function findAll() {
+    public static function findAllPosts() {
         $db = Connection::connect();
         
         $stmt = $db->prepare("SELECT * FROM posts");

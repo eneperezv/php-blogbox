@@ -27,8 +27,8 @@ class Post{
         return $result === false ? [] : $result;
     }
 
-    public static function findAll() {
-        $result = PostDal::findAll();
+    public static function findAllPosts() {
+        $result = PostDal::findAllPosts();
         return $result === false ? [] : $result;
     }
 

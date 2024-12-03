@@ -179,7 +179,7 @@ if(count(array_filter($arrayRutas)) == 2){
             // ENDPOINT: /post/find-all
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            if (array_filter($arrayRutas)[4] == "find-all"){
+            if (array_filter($arrayRutas)[4] == "find-all-posts"){
                 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") {
 
                     $headers = function_exists('getallheaders') ? getallheaders() : [];
@@ -189,7 +189,7 @@ if(count(array_filter($arrayRutas)) == 2){
                         exit();
                     }
 
-                    $post = PostController::findAll();
+                    $post = PostController::findAllPosts();
                     if(empty($post)){
                         $err = array('error' => 'No se encuentran posts.');
                         Response::error('No Content', $post, 200);
