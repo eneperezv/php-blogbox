@@ -27,24 +27,15 @@ require_once "src/Libs/firebase-php-jwt/SignatureInvalidException.php";
 
 // APP
 // CONTROLLERS
-//require_once "src/Controllers/AppointmentController.php";
 require_once "src/Controllers/AuthController.php";
 require_once "src/Controllers/PostController.php";
-//require_once "src/Controllers/OperatorController.php";
 require_once "src/Controllers/RoutesController.php";
-//require_once "src/Controllers/ServiceController.php";
 // DATA ACCESS
 require_once "src/DataAccess/UserDal.php";
 require_once "src/DataAccess/PostDal.php";
-//require_once "src/DataAccess/AppointmentDAL.php";
-//require_once "src/DataAccess/OperatorDAL.php";
-//require_once "src/DataAccess/ServiceDAL.php";
 // MODELS
-//require_once "src/Models/Appointment.php";
 require_once "src/Models/Connection.php";
 require_once "src/Models/Post.php";
-//require_once "src/Models/Operator.php";
-//require_once "src/Models/Service.php";
 require_once "src/Models/User.php";
 // UTILS
 require_once "src/Utils/EnvLoader.php";

@@ -27,7 +27,7 @@ class Validator {
     }
 
     public static function validateText(string $text): bool {
-        $pattern = '/^[a-zA-Z0-9\s.,\'"?!-]+$/u';
+        $pattern = '/^[\p{L}\p{N}\s.,\'"?!¡¿()@\-:;]+$/u';
         return preg_match($pattern, $text) === 1;
     }
     

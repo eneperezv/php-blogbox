@@ -110,10 +110,9 @@ if(count(array_filter($arrayRutas)) == 2){
                     Response::error("Method Not Allowed", $err, 405);
                 }
             }
-            /*
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            // ENDPOINT: /services/find-by-id/{service_id}
+            // ENDPOINT: /post/find-by-id/{post_id}
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
             if (array_filter($arrayRutas)[4] == "find-by-id"){
@@ -127,12 +126,12 @@ if(count(array_filter($arrayRutas)) == 2){
                             exit();
                         }
 
-                        $service = Service::findById($arrayRutas[5]);
-                        if(empty($service)){
-                            $err = array('error' => 'No se encuentra el servicio solicitado.');
+                        $post = PostController::findById($arrayRutas[5]);
+                        if(empty($post)){
+                            $err = array('error' => 'No se encuentra el post solicitado.');
                             Response::error('No Content', $err, 204);
                         }else{
-                            Response::success('OK', $service, 200, 'service');
+                            Response::success('OK', $post, 200, 'post');
                         }
                     }else{
                         $err = array('error' => 'Faltan datos necesarios.');
@@ -145,10 +144,10 @@ if(count(array_filter($arrayRutas)) == 2){
             }
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            // ENDPOINT: /services/find-by-business/{business_id}
+            // ENDPOINT: /post/find-by-author/{author_id}
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            if (array_filter($arrayRutas)[4] == "find-by-business"){
+            if (array_filter($arrayRutas)[4] == "find-by-author"){
                 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") {
                     if(isset($arrayRutas[5]) && Validator::validateInteger($arrayRutas[5])){
 
@@ -159,12 +158,12 @@ if(count(array_filter($arrayRutas)) == 2){
                             exit();
                         }
 
-                        $service = Service::findByBusinessId($arrayRutas[5]);
-                        if(empty($service)){
-                            $err = array('error' => 'No se encuentran servicios asociados a la empresa.');
+                        $post = PostController::findByAuthorId($arrayRutas[5]);
+                        if(empty($post)){
+                            $err = array('error' => 'No se encuentran post asociados al autor.');
                             Response::error('No Content', $err, 200);
                         }else{
-                            Response::success('OK', $service, 200, 'service');
+                            Response::success('OK', $post, 200, 'post');
                         }
                     }else{
                         $err = array('error' => 'Faltan datos necesarios.');
@@ -177,11 +176,12 @@ if(count(array_filter($arrayRutas)) == 2){
             }
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            // ENDPOINT: /services/find-all
+            // ENDPOINT: /post/find-all
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
             if (array_filter($arrayRutas)[4] == "find-all"){
                 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") {
+
                     $headers = function_exists('getallheaders') ? getallheaders() : [];
                     $errors = Utils::headerTokenRootValidate($headers);
                     if (!empty($errors)) {
@@ -189,19 +189,18 @@ if(count(array_filter($arrayRutas)) == 2){
                         exit();
                     }
 
-                    $service = Service::findAll();
-                    if(empty($service)){
-                        $err = array('error' => 'No se encuentran servicios.');
-                        Response::error('No Content', $err, 200);
+                    $post = PostController::findAll();
+                    if(empty($post)){
+                        $err = array('error' => 'No se encuentran posts.');
+                        Response::error('No Content', $post, 200);
                     }else{
-                        Response::success('OK', $service, 200, 'service');
+                        Response::success('OK', $post, 200, 'post');
                     }
                 }else{
                     $err = array('error' => 'Método no permitido.');
                     Response::error("Method Not Allowed", $err, 405);
                 }
             }
-                */
         }
         /*
         // ------------------------------------------------------------------------------------------------
