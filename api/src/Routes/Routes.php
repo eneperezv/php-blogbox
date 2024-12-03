@@ -75,16 +75,15 @@ if(count(array_filter($arrayRutas)) == 2){
             }
         }
     }elseif(count(array_filter($arrayRutas)) >= 4){
-        /*
         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
-        // MODULE: /services
+        // MODULE: /post
         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
-        if (array_filter($arrayRutas)[3] == "services"){
+        if (array_filter($arrayRutas)[3] == "post"){
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            // ENDPOINT: /services/create
+            // ENDPOINT: /post/create
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
             if (array_filter($arrayRutas)[4] == "create"){
@@ -98,10 +97,10 @@ if(count(array_filter($arrayRutas)) == 2){
                     }
 
                     $data = json_decode(file_get_contents("php://input"), true);
-                    if (isset($data['name']) && 
-                        isset($data['duration_minutes']) && 
-                        isset($data['price'])) {
-                        ServiceController::create($data);
+                    if (isset($data['title']) && 
+                        isset($data['content']) && 
+                        isset($data['author_id'])) {
+                        PostController::create($data);
                     } else {
                         $err = array('error' => 'Faltan datos necesarios.');
                         Response::error('Bad Request', $err, 400);
@@ -111,6 +110,7 @@ if(count(array_filter($arrayRutas)) == 2){
                     Response::error("Method Not Allowed", $err, 405);
                 }
             }
+            /*
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
             // ENDPOINT: /services/find-by-id/{service_id}
@@ -201,7 +201,9 @@ if(count(array_filter($arrayRutas)) == 2){
                     Response::error("Method Not Allowed", $err, 405);
                 }
             }
+                */
         }
+        /*
         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
         // MODULE: /operators
