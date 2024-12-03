@@ -51,6 +51,15 @@ class Validator {
         return $date && $date->format($format) === $text;
     }
 
+    // CONSULTA POR ID GENERAL
+    public static function validateConsultaPorId($dataId): array {
+        $errors = [];
+        if (!self::validateInteger($dataId)) {
+            $errors[] = "La consulta debe incluir un número entero.";
+        }
+        return $errors;
+    }
+
     // VALIDACION DE DATOS PARA AUTENTICACION
     public static function validateCredentials(string $email, string $password): array {
         $errors = [];
@@ -63,35 +72,17 @@ class Validator {
         return $errors;
     }
 
-    // VALIDACION DE DATOS PARA SERVICES
-    public static function validateDataService($data): array {
+    // VALIDACION DE DATOS PARA POST
+    public static function validateDataPost($data): array {
         $errors = [];
-        if (!self::validateText($data['name'])) {
-            $errors[] = "El campo 'name' contiene caracteres inválidos.";
+        if (!self::validateText($data['title'])) {
+            $errors[] = "El campo 'title' contiene caracteres inválidos.";
         }
-        if (!self::validateInteger($data['duration_minutes'])) {
-            $errors[] = "El campo 'duration_minutes' debe ser un número entero.";
+        if (!self::validateText($data['content'])) {
+            $errors[] = "El campo 'content' contiene caracteres inválidos.";
         }
-        if (!self::validateDecimal($data['price'])) {
-            $errors[] = "El campo 'price' debe ser un número decimal válido.";
-        }
-        return $errors;
-    }
-
-    // VALIDACION DE DATOS PARA OPERATOR SCHEDULE
-    public static function validateDataOperatorSchedule($data): array {
-        $errors = [];
-        if (!self::validateInteger($data['operator_id'])) {
-            $errors[] = "El campo 'operator_id' contiene caracteres inválidos.";
-        }
-        if (!self::validateTime24H($data['start_time'])) {
-            $errors[] = "El campo 'start_time' debe ser en formato HH:MM:SS.";
-        }
-        if (!self::validateTime24H($data['end_time'])) {
-            $errors[] = "El campo 'end_time' debe ser en formato HH:MM:SS.";
-        }
-        if (!self::validateDate($data['date'])) {
-            $errors[] = "El campo 'date' debe ser en formato AAAA-MM-DD.";
+        if (!self::validateInteger($data['author_id'])) {
+            $errors[] = "El campo 'author_id' debe ser un número entero.";
         }
         return $errors;
     }
