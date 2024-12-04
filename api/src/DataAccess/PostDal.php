@@ -20,7 +20,11 @@ class PostDal{
     public static function findById($postId) {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM posts WHERE id = :postId");
+        $stmt = $db->prepare("SELECT posts.*,
+                                (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'UP') AS upvote_count,
+                                (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'DOWN') AS downvote_count,
+                                (SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) AS comment_count
+                            FROM posts WHERE id = :postId");
         $stmt->bindParam(":postId", $postId, \PDO::PARAM_INT);
         $stmt->execute();
 
@@ -32,7 +36,11 @@ class PostDal{
     public static function findByAuthorId($authorId) {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM posts WHERE author_id = :author_id");
+        $stmt = $db->prepare("SELECT posts.*,
+                                (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'UP') AS upvote_count,
+                                (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'DOWN') AS downvote_count,
+                                (SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) AS comment_count
+                            FROM posts WHERE author_id = :author_id");
         $stmt->bindParam(":author_id", $authorId, \PDO::PARAM_INT);
         $stmt->execute();
 
@@ -44,7 +52,11 @@ class PostDal{
     public static function findAllPosts() {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM posts");
+        $stmt = $db->prepare("SELECT posts.*,
+                                (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'UP') AS upvote_count,
+                                (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'DOWN') AS downvote_count,
+                                (SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) AS comment_count
+                            FROM posts");
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -77,24 +89,100 @@ class PostDal{
         }
     }
 
-    public static function setUpvote($data){
-        //$result = PostDal::setUpvote($data);
-        //return $result === false ? [] : $result;
+    public static function setVote($data){
+        $db = Connection::connect();
+
+        $fechaHoy = date('Y-m-d H:i:s');
+    
+        try {
+            $db->beginTransaction();
+            $stmt = $db->prepare("INSERT INTO votes (post_id, option, user_id, created_at, updated_at) 
+                                  VALUES (:post_id, :option, :user_id, :created_at, :updated_at)");
+            $stmt->bindParam(":post_id", $data['post_id'], \PDO::PARAM_INT);
+            $stmt->bindParam(":option", $data['option'], \PDO::PARAM_STR);
+            $stmt->bindParam(":user_id", $data['user_id'], \PDO::PARAM_INT);
+            $stmt->bindParam(":created_at", $fechaHoy, \PDO::PARAM_STR);
+            $stmt->bindParam(":updated_at", $fechaHoy, \PDO::PARAM_STR);
+            $stmt->execute();
+            $db->commit();
+
+            return self::getVotes($data['post_id']);
+        } catch (\PDOException $e) {
+            $db->rollBack();
+            throw new \Exception("Error al crear el vote: " . $e->getMessage());
+        }
     }
 
-    public static function getUpvotes($postId){
-        //$result = PostDal::getUpvotes($postId);
-        //return $result === false ? [] : $result;
+    public static function getVotes($postId){
+        $db = Connection::connect();
+        
+        $stmt = $db->prepare("SELECT * FROM votes WHERE post_id = :post_id");
+        $stmt->bindParam(":post_id", $postId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result === false ? [] : $result;
+    }
+
+    public static function getVotesCount($postId){
+        $db = Connection::connect();
+        
+        $stmt = $db->prepare("SELECT COUNT(1) FROM votes WHERE post_id = :post_id");
+        $stmt->bindParam(":post_id", $postId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result === false ? [] : $result;
     }
 
     public static function setComment($data){
-        //$result = PostDal::setComment($data);
-        //return $result === false ? [] : $result;
+        $db = Connection::connect();
+
+        $fechaHoy = date('Y-m-d H:i:s');
+    
+        try {
+            $db->beginTransaction();
+            $stmt = $db->prepare("INSERT INTO comments (post_id, content, user_id, created_at, updated_at) 
+                                  VALUES (:post_id, :content, :user_id, :created_at, :updated_at)");
+            $stmt->bindParam(":post_id", $data['post_id'], \PDO::PARAM_INT);
+            $stmt->bindParam(":content", $data['content'], \PDO::PARAM_STR);
+            $stmt->bindParam(":user_id", $data['user_id'], \PDO::PARAM_INT);
+            $stmt->bindParam(":created_at", $fechaHoy, \PDO::PARAM_STR);
+            $stmt->bindParam(":updated_at", $fechaHoy, \PDO::PARAM_STR);
+            $stmt->execute();
+            $db->commit();
+
+            return self::getComments($data['post_id']);
+        } catch (\PDOException $e) {
+            $db->rollBack();
+            throw new \Exception("Error al crear el comment: " . $e->getMessage());
+        }
     }
 
     public static function getComments($postId){
-        //$result = PostDal::getComments($postId);
-        //return $result === false ? [] : $result;
+        $db = Connection::connect();
+        
+        $stmt = $db->prepare("SELECT * FROM comments WHERE post_id = :post_id");
+        $stmt->bindParam(":post_id", $postId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result === false ? [] : $result;
+    }
+
+    public static function getCommentsCount($postId){
+        $db = Connection::connect();
+        
+        $stmt = $db->prepare("SELECT COUNT(1) FROM comments WHERE post_id = :post_id");
+        $stmt->bindParam(":post_id", $postId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result === false ? [] : $result;
     }
 
 }
