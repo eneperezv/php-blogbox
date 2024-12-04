@@ -201,6 +201,64 @@ if(count(array_filter($arrayRutas)) == 2){
                     Response::error("Method Not Allowed", $err, 405);
                 }
             }
+            // ------------------------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------------------------
+            // ENDPOINT: /post/set-vote
+            // ------------------------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------------------------
+            if (array_filter($arrayRutas)[4] == "set-vote"){
+                if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST") {
+
+                    $headers = function_exists('getallheaders') ? getallheaders() : [];
+                    $errors = Utils::headerTokenValidate($headers);
+                    if (!empty($errors)) {
+                        return Response::error('Ha ocurrido un error en la solicitud.', $errors, 422);
+                        exit();
+                    }
+
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    if (isset($data['post_id']) && 
+                        isset($data['option']) && 
+                        isset($data['user_id'])) {
+                        PostController::setVote($data);
+                    } else {
+                        $err = array('error' => 'Faltan datos necesarios.');
+                        Response::error('Bad Request', $err, 400);
+                    }
+                } else {
+                    $err = array('error' => 'Método no permitido.');
+                    Response::error("Method Not Allowed", $err, 405);
+                }
+            }
+            // ------------------------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------------------------
+            // ENDPOINT: /post/set-comment
+            // ------------------------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------------------------
+            if (array_filter($arrayRutas)[4] == "set-comment"){
+                if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST") {
+
+                    $headers = function_exists('getallheaders') ? getallheaders() : [];
+                    $errors = Utils::headerTokenValidate($headers);
+                    if (!empty($errors)) {
+                        return Response::error('Ha ocurrido un error en la solicitud.', $errors, 422);
+                        exit();
+                    }
+
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    if (isset($data['post_id']) && 
+                        isset($data['content']) && 
+                        isset($data['user_id'])) {
+                        PostController::setComment($data);
+                    } else {
+                        $err = array('error' => 'Faltan datos necesarios.');
+                        Response::error('Bad Request', $err, 400);
+                    }
+                } else {
+                    $err = array('error' => 'Método no permitido.');
+                    Response::error("Method Not Allowed", $err, 405);
+                }
+            }
         }
         /*
         // ------------------------------------------------------------------------------------------------

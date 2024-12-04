@@ -104,13 +104,26 @@ class PostDal{
             $stmt->bindParam(":created_at", $fechaHoy, \PDO::PARAM_STR);
             $stmt->bindParam(":updated_at", $fechaHoy, \PDO::PARAM_STR);
             $stmt->execute();
+            $voteId = $db->lastInsertId();
             $db->commit();
 
-            return self::getVotes($data['post_id']);
+            return self::getVoteById($voteId);
         } catch (\PDOException $e) {
             $db->rollBack();
             throw new \Exception("Error al crear el vote: " . $e->getMessage());
         }
+    }
+
+    public static function getVoteById($voteId){
+        $db = Connection::connect();
+        
+        $stmt = $db->prepare("SELECT * FROM votes WHERE id = :voteId");
+        $stmt->bindParam(":voteId", $voteId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result === false ? [] : $result;
     }
 
     public static function getVotes($postId){
@@ -152,13 +165,27 @@ class PostDal{
             $stmt->bindParam(":created_at", $fechaHoy, \PDO::PARAM_STR);
             $stmt->bindParam(":updated_at", $fechaHoy, \PDO::PARAM_STR);
             $stmt->execute();
+            $commentId = $db->lastInsertId();
             $db->commit();
 
-            return self::getComments($data['post_id']);
+            return self::getCommentById($commentId);
         } catch (\PDOException $e) {
+            Logger::warning("Error al crear el comment: ".$e->getMessage());
             $db->rollBack();
             throw new \Exception("Error al crear el comment: " . $e->getMessage());
         }
+    }
+
+    public static function getCommentById($commentId){
+        $db = Connection::connect();
+        
+        $stmt = $db->prepare("SELECT * FROM comments WHERE id = :commentId");
+        $stmt->bindParam(":commentId", $commentId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result === false ? [] : $result;
     }
 
     public static function getComments($postId){
