@@ -1,7 +1,5 @@
 <?php
-require_once 'functions.php';
-$posts = fetchPosts(); // Obtiene los posts desde la API
-
+$posts = fetchPosts($_SESSION['token']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +21,7 @@ $posts = fetchPosts(); // Obtiene los posts desde la API
                             <h5 class="card-title"><?= htmlspecialchars($post['title']) ?></h5>
                             <p class="card-text"><?= htmlspecialchars(substr($post['content'], 0, 50)) ?>...</p>
                             <p class="text-muted">Por <a href="index.php?action=author&id=<?= $post['author_id'] ?>"><?= htmlspecialchars($post['author_name']) ?></a></p>
-                            <p>👍 <?= $post['upvotes'] ?> 👎 <?= $post['downvotes'] ?> 💬 <?= $post['comments'] ?></p>
+                            <p>👍 <?= $post['upvote_count'] ?> 👎 <?= $post['downvote_count'] ?> 💬 <?= $post['comment_count'] ?></p>
                             <a href="index.php?action=post&id=<?= $post['id'] ?>" class="btn btn-primary">Seguir leyendo</a>
                         </div>
                     </div>

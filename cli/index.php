@@ -1,14 +1,39 @@
 <?php
-
+session_start();
 require_once 'includes/functions.php';
 
-// Determinar acción solicitada
-$action = $_GET['action'] ?? 'login';
+// Verificar si el usuario tiene un token
+if (isset($_SESSION['token'])) {
+    $token = $_SESSION['token'];
 
-// Renderizar la vista adecuada
+    // Validar si el token sigue siendo válido
+    if (!validateToken($token)) {
+        session_destroy(); // Eliminar la sesión si el token no es válido
+        header('Location: index.php?action=login'); // Redirigir al login
+        exit;
+    }
+} else {
+    // Si no hay token, redirigir al login
+    if (($_GET['action'] ?? '') !== 'login') {
+        header('Location: index.php?action=login');
+        exit;
+    }
+}
+
+// IMPORTANTE!!
+// TERMINAR METODO DE VALIDACION DE TOKEN EN LA API
+
+// Determinar acción
+$action = $_GET['action'] ?? 'home';
+
+// Renderizar la vista
 switch ($action) {
-    case 'home':
-        require 'includes/home.php';
+    case 'login':
+        require 'includes/login.php';
+        break;
+    case 'logout':
+        session_destroy();
+        header('Location: index.php?action=login');
         break;
     case 'post':
         require 'includes/post.php';
@@ -17,8 +42,6 @@ switch ($action) {
         require 'includes/author.php';
         break;
     default:
-        require 'includes/login.php';
+        require 'includes/home.php';
         break;
 }
-
-?>

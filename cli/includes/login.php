@@ -1,3 +1,19 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $response = authenticateUser($email, $password);
+
+    if ($response && $response['status'] === 'OK') {
+        $_SESSION['token'] = $response['response_data']['content']['token'];
+        $_SESSION['user_id'] = $response['response_data']['content']['id'];
+        header('Location: index.php?action=home');
+        exit;
+    } else {
+        $error = $response['message'] ?? 'Error al iniciar sesión.';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +27,13 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h2 class="text-center mb-4">Iniciar Sesión</h2>
-                <form action="index.php?action=home" method="post">
+                <?php if (isset($error)): ?>
+                    <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
+                <form method="post">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Usuario</label>
-                        <input type="text" name="username" class="form-control" id="username" required>
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
