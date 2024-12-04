@@ -89,7 +89,7 @@ class Utils{
                     $errors[] = ['error' => 'Token inválido o expirado.'];
                 }else{
                     $user = User::findById($decoded['sub']);
-                    if($user['role'] != 'root'){
+                    if($user['role'] != 'admin'){
                         $errors[] = ['error' => 'Este Rol de usuario no puede consultar todos los servicios.'];
                     }
                 }

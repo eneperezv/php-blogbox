@@ -66,7 +66,7 @@ class PostController{
     public static function findAllPosts() {
 
         try {
-            $postDetails = Post::findAll();
+            $postDetails = Post::findAllPosts();
 
             if ($postDetails) {
                 return Response::success('Consulta de datos', $postDetails, 200, 'post');

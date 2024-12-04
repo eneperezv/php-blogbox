@@ -17,23 +17,23 @@
 
 class UserDal{
 
-    public static function findById($serviceId) {
+    public static function findById($userId) {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM services WHERE id = :serviceId");
-        $stmt->bindParam(":serviceId", $serviceId, \PDO::PARAM_INT);
+        $stmt = $db->prepare("SELECT * FROM users WHERE id = :userId");
+        $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
         $stmt->execute();
 
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         return $result === false ? [] : $result;
     }
-
-    public static function findByBusinessId($businessId) {
+    
+    public static function findByEmail($email) {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM services WHERE id_business_services = :businessId");
-        $stmt->bindParam(":businessId", $businessId, \PDO::PARAM_INT);
+        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->bindParam(":email", $email, \PDO::PARAM_STR);
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ class UserDal{
     public static function findAll() {
         $db = Connection::connect();
         
-        $stmt = $db->prepare("SELECT * FROM services");
+        $stmt = $db->prepare("SELECT * FROM users");
         $stmt->execute();
 
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -57,19 +57,22 @@ class UserDal{
     
         try {
             $db->beginTransaction();
-            $stmt = $db->prepare("INSERT INTO services (name, duration_minutes, price) 
-                                  VALUES (:name, :duration_minutes, :price)");
+            $stmt = $db->prepare("INSERT INTO users (name, email, phone, password, role, timezone) 
+                                  VALUES (:name, :email, :phone, :password, :role, :timezone)");
             $stmt->bindParam(":name", $data['name'], \PDO::PARAM_STR);
-            $stmt->bindParam(":duration_minutes", $data['duration_minutes'], \PDO::PARAM_INT);
-            $stmt->bindParam(":price", $data['price'], \PDO::PARAM_STR);
+            $stmt->bindParam(":email", $data['email'], \PDO::PARAM_STR);
+            $stmt->bindParam(":phone", $data['phone'], \PDO::PARAM_STR);
+            $stmt->bindParam(":password", $data['password'], \PDO::PARAM_STR);
+            $stmt->bindParam(":role", $data['role'], \PDO::PARAM_STR);
+            $stmt->bindParam(":timezone", $data['timezone'], \PDO::PARAM_STR);
             $stmt->execute();
-            $serviceId = $db->lastInsertId();
+            $userId = $db->lastInsertId();
             $db->commit();
 
-            return self::findById($serviceId);
+            return self::findById($userId);
         } catch (\PDOException $e) {
             $db->rollBack();
-            throw new \Exception("Error al crear el servicio: " . $e->getMessage());
+            throw new \Exception("Error al crear el usuario: " . $e->getMessage());
         }
     }
 

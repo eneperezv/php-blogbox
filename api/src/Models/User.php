@@ -17,13 +17,18 @@
 
 class User{
 
+    public static function findById($userId) {
+        $result = UserDal::findById($userId);
+        return $result === false ? [] : $result;
+    }
+
     public static function findByEmail($email) {
         $result = UserDal::findByEmail($email);
         return $result === false ? [] : $result;
     }
 
-    public static function findById($userId) {
-        $result = UserDal::findById($userId);
+    public static function findAll() {
+        $result = UserDal::findAll();
         return $result === false ? [] : $result;
     }
 
