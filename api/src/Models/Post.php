@@ -37,6 +37,26 @@ class Post{
         return $result === false ? [] : $result;
     }
 
+    public static function setUpvote($data){
+        $result = PostDal::setUpvote($data);
+        return $result === false ? [] : $result;
+    }
+
+    public static function getUpvotes($postId){
+        $result = PostDal::getUpvotes($postId);
+        return $result === false ? [] : $result;
+    }
+
+    public static function setComment($data){
+        $result = PostDal::setComment($data);
+        return $result === false ? [] : $result;
+    }
+
+    public static function getComments($postId){
+        $result = PostDal::getComments($postId);
+        return $result === false ? [] : $result;
+    }
+
 }
 
 ?>
