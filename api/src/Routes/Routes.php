@@ -74,6 +74,33 @@ if(count(array_filter($arrayRutas)) == 2){
                 Response::error("Method Not Allowed", $err, 405);
             }
         }
+        // ------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------
+        // ENDPOINT: /validate-token
+        // ------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------
+        if (array_filter($arrayRutas)[3] == "validate-token") {
+            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST") {
+                // Captura los datos enviados en el cuerpo de la solicitud
+                $data = json_decode(file_get_contents("php://input"), true);
+
+                if (isset($data['email']) && 
+                        isset($data['password']) && 
+                        isset($data['role']) && 
+                        isset($data['name']) && 
+                        isset($data['phone']) && 
+                        isset($data['timezone'])
+                    ) {
+                    AuthController::register($data);
+                } else {
+                    $err = array('error' => 'Faltan datos necesarios.');
+                    Response::error('Bad Request', $err, 400);
+                }
+            } else {
+                $err = array('error' => 'Método no permitido.');
+                Response::error("Method Not Allowed", $err, 405);
+            }
+        }
     }elseif(count(array_filter($arrayRutas)) >= 4){
         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
