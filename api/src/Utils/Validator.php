@@ -51,6 +51,11 @@ class Validator {
         return $date && $date->format($format) === $text;
     }
 
+    public static function validateTextOptions(string $text): bool{
+        $pattern = '/^(UP|DOWN)$/';
+        return preg_match($pattern, $text) === 1;
+    }
+
     // CONSULTA POR ID GENERAL
     public static function validateConsultaPorId($dataId): array {
         $errors = [];
@@ -83,6 +88,36 @@ class Validator {
         }
         if (!self::validateInteger($data['author_id'])) {
             $errors[] = "El campo 'author_id' debe ser un número entero.";
+        }
+        return $errors;
+    }
+
+    // VALIDACION DE DATOS PARA VOTES
+    public static function validateDataVotes($data): array {
+        $errors = [];
+        if (!self::validateInteger($data['post_id'])) {
+            $errors[] = "El campo 'post_id' debe ser un número entero.";
+        }
+        if (!self::validateTextOptions($data['option'])) {
+            $errors[] = "El campo 'option' debe ser UP o DOWN.";
+        }
+        if (!self::validateInteger($data['user_id'])) {
+            $errors[] = "El campo 'user_id' debe ser un número entero.";
+        }
+        return $errors;
+    }
+
+    // VALIDACION DE DATOS PARA COMMENTS
+    public static function validateDataComments($data): array {
+        $errors = [];
+        if (!self::validateInteger($data['post_id'])) {
+            $errors[] = "El campo 'post_id' debe ser un número entero.";
+        }
+        if (!self::validateText($data['content'])) {
+            $errors[] = "El campo 'content' debe ser texto.";
+        }
+        if (!self::validateInteger($data['user_id'])) {
+            $errors[] = "El campo 'user_id' debe ser un número entero.";
         }
         return $errors;
     }
