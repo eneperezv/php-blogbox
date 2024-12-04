@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2024 a las 01:44:09
+-- Tiempo de generación: 04-12-2024 a las 05:31:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,6 +37,16 @@ CREATE TABLE `comments` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `comments`
+--
+
+INSERT INTO `comments` (`id`, `post_id`, `content`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Muy interesante este post. quiero saber más del tema', 6, '2024-12-03 23:22:01', '2024-12-03 23:22:01'),
+(2, 1, 'Esto es de mucha ayuda', 6, '2024-12-03 23:26:13', '2024-12-03 23:26:13'),
+(3, 1, 'Esto es de mucha ayuda', 6, '2024-12-03 23:28:38', '2024-12-03 23:28:38'),
+(4, 1, 'Esto es de mucha ayuda una vez más', 6, '2024-12-03 23:30:02', '2024-12-03 23:30:02');
 
 -- --------------------------------------------------------
 
@@ -109,6 +119,17 @@ CREATE TABLE `votes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `votes`
+--
+
+INSERT INTO `votes` (`id`, `post_id`, `option`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 'UP', 6, '2024-12-03 23:20:35', '2024-12-03 23:20:35'),
+(2, 1, 'DOWN', 6, '2024-12-03 23:22:34', '2024-12-03 23:22:34'),
+(3, 1, 'DOWN', 6, '2024-12-03 23:25:48', '2024-12-03 23:25:48'),
+(4, 1, 'UP', 6, '2024-12-03 23:25:55', '2024-12-03 23:25:55'),
+(5, 1, 'UP', 6, '2024-12-03 23:25:57', '2024-12-03 23:25:57');
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -145,7 +166,7 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT de la tabla `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `posts`
@@ -163,7 +184,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
