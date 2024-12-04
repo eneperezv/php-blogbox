@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2024 a las 05:26:40
+-- Tiempo de generación: 04-12-2024 a las 01:44:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -26,6 +26,46 @@ USE `blogbox`;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `content` text NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `posts`
+--
+
+INSERT INTO `posts` (`id`, `title`, `content`, `author_id`, `created_at`, `updated_at`) VALUES
+(1, '¿Qué es Lorem Ipsum?', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas Letraset, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.', 6, '2024-12-02 23:22:16', '2024-12-02 23:22:16'),
+(2, 'Lorem 1', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas Letraset, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.', 3, '2024-12-02 23:23:25', '2024-12-02 23:25:19'),
+(3, 'Lorem Ipsum', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas Letraset, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.', 2, '2024-12-02 23:23:39', '2024-12-02 23:23:39'),
+(4, 'Ipsum', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas Letraset, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.', 6, '2024-12-02 23:28:55', '2024-12-02 23:28:55');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -35,7 +75,7 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('user','operator','admin') NOT NULL DEFAULT 'user',
+  `role` enum('admin','author') NOT NULL DEFAULT 'author',
   `timezone` varchar(50) DEFAULT 'UTC',
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -46,15 +86,43 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `role`, `timezone`, `created_at`, `updated_at`) VALUES
-(1, 'Admin User', 'admin@example.com', '1234567890', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'admin', 'America/Bogota', '2024-11-30 23:26:03', '2024-11-30 23:26:03'),
-(2, 'Operator One', 'operator1@example.com', '2345678901', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'operator', 'America/Bogota', '2024-11-30 23:26:03', '2024-11-30 23:26:03'),
-(3, 'Operator Two', 'operator2@example.com', '3456789012', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'operator', 'America/Bogota', '2024-11-30 23:26:03', '2024-11-30 23:26:03'),
-(4, 'Test User', 'user1@example.com', '4567890123', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'user', 'America/Bogota', '2024-11-30 23:26:03', '2024-11-30 23:26:03'),
-(5, 'Test User Two', 'user2@example.com', '5678901234', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'user', 'America/Bogota', '2024-11-30 23:26:03', '2024-11-30 23:26:03');
+(1, 'Author 1', 'admin@example.com', '1234567890', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'author', 'America/Bogota', '2024-11-30 23:26:03', '2024-12-02 23:23:01'),
+(2, 'Author 2', 'operator1@example.com', '2345678901', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'author', 'America/Bogota', '2024-11-30 23:26:03', '2024-12-02 23:23:04'),
+(3, 'Author 3', 'operator2@example.com', '3456789012', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'author', 'America/Bogota', '2024-11-30 23:26:03', '2024-12-02 23:23:07'),
+(4, 'Author 4', 'user1@example.com', '4567890123', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'author', 'America/Bogota', '2024-11-30 23:26:03', '2024-12-02 23:23:10'),
+(5, 'Author 5', 'user2@example.com', '5678901234', '$2y$10$QwUQm3lQOrwOSa1/7jB96u9F6X9C8gyTevMkF69xfHbMJeuPHUF5u', 'author', 'America/Bogota', '2024-11-30 23:26:03', '2024-12-02 23:23:14'),
+(6, 'Eliezer Navarro Pérez', 'eneperezv@gmail.com', '3016545845', '$2y$10$rpMFEwZcLidRPgkFahqAnuuQhQRogy3rpmOFmYQ0EBqXO.q4MJqzO', 'admin', 'America/Bogota', '2024-12-01 18:25:54', '2024-12-01 18:35:14');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `votes`
+--
+
+CREATE TABLE `votes` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `option` enum('UP','DOWN') NOT NULL DEFAULT 'UP',
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `users`
@@ -64,14 +132,38 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indices de la tabla `votes`
+--
+ALTER TABLE `votes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `votes`
+--
+ALTER TABLE `votes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
