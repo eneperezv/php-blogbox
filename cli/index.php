@@ -20,9 +20,6 @@ if (isset($_SESSION['token'])) {
     }
 }
 
-// IMPORTANTE!!
-// TERMINAR METODO DE VALIDACION DE TOKEN EN LA API
-
 // Determinar acción
 $action = $_GET['action'] ?? 'home';
 
