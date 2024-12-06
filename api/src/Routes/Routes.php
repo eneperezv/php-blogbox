@@ -81,20 +81,13 @@ if(count(array_filter($arrayRutas)) == 2){
         if (array_filter($arrayRutas)[3] == "validate-token") {
             if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") {
                 
-                // Obtener encabezados
                 $headers = function_exists('getallheaders') ? getallheaders() : [];
-
-                // Validar encabezados y token
                 $errors = Utils::headerTokenValidate($headers);
-
-                // Si hay errores, devolverlos
                 if (!empty($errors)) {
                     Response::error('Unauthorized', $errors, 401);
                     exit;
                 }
-
-                // Si el token es válido, responder éxito
-                Response::success("Token válido", [], 200);
+                Response::success("Token válido", [], 200, "response");
 
             } else {
                 $err = array('error' => 'Método no permitido.');
