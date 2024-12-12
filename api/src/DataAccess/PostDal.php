@@ -14,7 +14,7 @@
  * @version 1.0
  * @since 1.0
  */
-
+//proceso
 class PostDal{
 
     public static function findById($postId) {
