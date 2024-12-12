@@ -43,12 +43,26 @@ function fetchPosts($token) {
     return $data['response_data']['content'] ?? [];
 }
 
+function fetchPostById($token,$postId){
+    $apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/post/find-by-id/'.$postId;
+    $options = [
+        'http' => [
+            'header' => "Authorization: Bearer $token\r\n",
+            'method' => 'GET'
+        ],
+    ];
+    $context  = stream_context_create($options);
+    $response = file_get_contents($apiUrl, false, $context);
+    $data = json_decode($response, true);
+    return $data['response_data']['content'] ?? [];
+}
+
 function validateToken($token) {
     $apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/validate-token';
     $options = [
         'http' => [
             'header' => "Authorization: Bearer $token\r\n",
-            'method' => 'GET',
+            'method' => 'GET'
         ],
     ];
 

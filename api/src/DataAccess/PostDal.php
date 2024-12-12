@@ -25,7 +25,7 @@ class PostDal{
                                 (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'DOWN') AS downvote_count,
                                 (SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) AS comment_count
                             FROM posts
-                            LEFT JOIN users ON posts.author_id = users.id WHERE id = :postId");
+                            LEFT JOIN users ON posts.author_id = users.id WHERE posts.id = :postId");
         $stmt->bindParam(":postId", $postId, \PDO::PARAM_INT);
         $stmt->execute();
 
@@ -42,7 +42,7 @@ class PostDal{
                                 (SELECT COUNT(*) FROM votes WHERE votes.post_id = posts.id AND votes.option = 'DOWN') AS downvote_count,
                                 (SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) AS comment_count
                             FROM posts
-                            LEFT JOIN users ON posts.author_id = users.id WHERE author_id = :author_id");
+                            LEFT JOIN users ON posts.author_id = users.id WHERE posts.author_id = :author_id");
         $stmt->bindParam(":author_id", $authorId, \PDO::PARAM_INT);
         $stmt->execute();
 

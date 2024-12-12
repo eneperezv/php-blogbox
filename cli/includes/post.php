@@ -15,7 +15,7 @@
  * @since 1.0
  */
 
-$post = fetchPostById($_GET['id']); // Obtener post desde la API
+$post = fetchPostById($_SESSION['token'],$_GET['id']); // Obtener post desde la API
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@ $post = fetchPostById($_GET['id']); // Obtener post desde la API
         <h1><?= htmlspecialchars($post['title']) ?></h1>
         <p>Por <a href="index.php?action=author&id=<?= $post['author_id'] ?>"><?= htmlspecialchars($post['author_name']) ?></a></p>
         <p><?= htmlspecialchars($post['content']) ?></p>
-        <p>👍 <?= $post['upvotes'] ?> 👎 <?= $post['downvotes'] ?> 💬 <?= $post['comments'] ?></p>
+        <p>👍 <?= $post['upvote_count'] ?> 👎 <?= $post['downvote_count'] ?> 💬 <?= $post['comment_count'] ?></p>
         <div class="mt-4">
             <button class="btn btn-success">👍 Upvote</button>
             <button class="btn btn-danger">👎 Downvote</button>
