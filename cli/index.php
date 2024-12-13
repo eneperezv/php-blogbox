@@ -16,6 +16,7 @@
  */
 
 session_start();
+require_once 'includes/app.php';
 require_once 'includes/functions.php';
 
 // Verificar si el usuario tiene un token
