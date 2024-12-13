@@ -98,4 +98,22 @@ function fetchPostByAuthor($token,$authorId){
     return $data['response_data']['content'] ?? [];
 }
 
+// -------------------------------------------
+// AUTHOR -------------------------------------
+// -------------------------------------------
+function fetchAuthorById($token,$authorId){
+    /*$apiUrl = getEndpoint('api.posts.find_by_id').$postId;
+    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/post/find-by-id/'.$postId;
+    $options = [
+        'http' => [
+            'header' => "Authorization: Bearer $token\r\n",
+            'method' => 'GET'
+        ],
+    ];
+    $context  = stream_context_create($options);
+    $response = file_get_contents($apiUrl, false, $context);
+    $data = json_decode($response, true);
+    return $data['response_data']['content'] ?? [];**/
+}
+
 ?>

@@ -16,6 +16,7 @@
  */
 
 $posts = fetchPostByAuthor($_SESSION['token'],$_GET['id']);
+$author = fetchAuthorById($_SESSION['token'],$_GET['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
