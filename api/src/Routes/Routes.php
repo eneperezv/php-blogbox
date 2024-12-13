@@ -283,7 +283,7 @@ if(count(array_filter($arrayRutas)) == 2){
         if (array_filter($arrayRutas)[3] == "author"){
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
-            // ENDPOINT: /author/find-by-id
+            // ENDPOINT: /author/find-by-id/{author_id}
             // ------------------------------------------------------------------------------------------------
             // ------------------------------------------------------------------------------------------------
             if (array_filter($arrayRutas)[4] == "find-by-id"){
@@ -297,12 +297,12 @@ if(count(array_filter($arrayRutas)) == 2){
                             exit();
                         }
 
-                        $post = PostController::findById($arrayRutas[5]);
+                        $post = AuthorController::findById($arrayRutas[5]);
                         if(empty($post)){
-                            $err = array('error' => 'No se encuentra el post solicitado.');
+                            $err = array('error' => 'No se encuentra el autor solicitado.');
                             Response::error('No Content', $err, 204);
                         }else{
-                            Response::success('OK', $post, 200, 'post');
+                            Response::success('OK', $post, 200, 'author');
                         }
                     }else{
                         $err = array('error' => 'Faltan datos necesarios.');
