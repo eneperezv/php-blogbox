@@ -280,6 +280,40 @@ if(count(array_filter($arrayRutas)) == 2){
                 }
             }
         }
+        if (array_filter($arrayRutas)[3] == "author"){
+            // ------------------------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------------------------
+            // ENDPOINT: /author/find-by-id
+            // ------------------------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------------------------
+            if (array_filter($arrayRutas)[4] == "find-by-id"){
+                if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") {
+                    if(isset($arrayRutas[5]) && Validator::validateInteger($arrayRutas[5])){
+
+                        $headers = function_exists('getallheaders') ? getallheaders() : [];
+                        $errors = Utils::headerTokenValidate($headers);
+                        if (!empty($errors)) {
+                            return Response::error('Ha ocurrido un error en la solicitud.', $errors, 422);
+                            exit();
+                        }
+
+                        $post = PostController::findById($arrayRutas[5]);
+                        if(empty($post)){
+                            $err = array('error' => 'No se encuentra el post solicitado.');
+                            Response::error('No Content', $err, 204);
+                        }else{
+                            Response::success('OK', $post, 200, 'post');
+                        }
+                    }else{
+                        $err = array('error' => 'Faltan datos necesarios.');
+                        Response::error('Bad Request', $err, 400);
+                    }
+                }else{
+                    $err = array('error' => 'Método no permitido.');
+                    Response::error("Method Not Allowed", $err, 405);
+                }
+            }
+        }
         /*
         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
