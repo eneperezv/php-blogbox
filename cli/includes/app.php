@@ -33,5 +33,26 @@ function getProperty($key, $properties) {
     throw new Exception("La clave '$key' no existe en las propiedades.");
 }
 
+function getEndpoint($key){
+    try {
+        // Cargar el archivo de propiedades
+        $properties = loadPropertiesFile('config/acc.properties');
+
+        // Leer la base URL y los endpoints específicos
+        $baseUrl   = getProperty('api.base_url', $properties);
+        $endponint = getProperty($key, $properties);
+        //$findAllPostsEndpoint = getProperty('api.posts.find_all', $properties);
+        //$upvoteEndpoint = getProperty('api.votes.upvote', $properties);
+
+        // Combinar la base URL con un endpoint
+        $fullUrl = $baseUrl . $endponint;
+        return $fullUrl;
+        //echo "Endpoint completo para 'find_all': $fullUrl\n";
+    } catch (Exception $e) {
+        return '';
+        //echo "Error: " . $e->getMessage();
+    }
+}
+
 
 ?>
