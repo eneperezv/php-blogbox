@@ -20,7 +20,6 @@
  // -------------------------------------------
 function authenticateUser($email, $password) {
     $apiUrl = getEndpoint('api.users.authenticate');
-    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/auth';
     $data = ['email' => $email, 'password' => $password];
     $options = [
         'http' => [
@@ -36,7 +35,6 @@ function authenticateUser($email, $password) {
 
 function validateToken($token) {
     $apiUrl = getEndpoint('api.token.validate');
-    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/validate-token';
     $options = [
         'http' => [
             'header' => "Authorization: Bearer $token\r\n",
@@ -56,7 +54,6 @@ function validateToken($token) {
 // -------------------------------------------
 function fetchPosts($token) {
     $apiUrl = getEndpoint('api.posts.find_all');
-    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/post/find-all-posts';
     $options = [
         'http' => [
             'header' => "Authorization: Bearer $token\r\n",
@@ -70,7 +67,6 @@ function fetchPosts($token) {
 
 function fetchPostById($token,$postId){
     $apiUrl = getEndpoint('api.posts.find_by_id').$postId;
-    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/post/find-by-id/'.$postId;
     $options = [
         'http' => [
             'header' => "Authorization: Bearer $token\r\n",
@@ -85,7 +81,6 @@ function fetchPostById($token,$postId){
 
 function fetchPostByAuthor($token,$authorId){
     $apiUrl = getEndpoint('api.posts.find_by_author').$authorId;
-    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/post/find-by-id/'.$postId;
     $options = [
         'http' => [
             'header' => "Authorization: Bearer $token\r\n",
@@ -103,7 +98,6 @@ function fetchPostByAuthor($token,$authorId){
 // -------------------------------------------
 function fetchAuthorById($token,$authorId){
     $apiUrl = getEndpoint('api.author.find_by_id').$authorId;
-    //$apiUrl = 'http://localhost:8090/proyectos/php-blogbox-api/post/find-by-id/'.$postId;
     $options = [
         'http' => [
             'header' => "Authorization: Bearer $token\r\n",
