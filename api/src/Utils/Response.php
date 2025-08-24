@@ -5,7 +5,7 @@
  * 
  * El código implementado en este formulario esta protegido
  * bajo las leyes internacionales del Derecho de Autor, sin embargo
- * se entrega bajo las condiciones descritas en The MIT License (MIT)  
+ * se entrega bajo las condiciones descritas en The MIT License (MIT)
  * en https://opensource.org/license/mit
  */
 
